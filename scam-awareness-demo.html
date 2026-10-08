@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Security Awareness Check</title>
+<style>
+  :root{ --red:#ff2d2d; --green:#27e06a; --bg:#060608; --panel:#0e0e13; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Courier New",ui-monospace,monospace;background:var(--bg);color:#e8e8ee;
+    min-height:100vh;min-height:100dvh;overflow-x:hidden}
+  .wrap{max-width:760px;margin:0 auto;padding:max(24px,env(safe-area-inset-top)) 20px 40px;
+    min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center}
+
+  /* persistent banner so it's never mistaken for a real attack */
+  .label{position:fixed;top:0;left:0;right:0;z-index:10;background:#15381f;color:#9af7bd;
+    text-align:center;font-size:13px;letter-spacing:.05em;padding:8px 12px;border-bottom:1px solid #27e06a66}
+
+  /* ---- Stage 1: the scare ---- */
+  .scare{text-align:center}
+  .scare.hide{display:none}
+  .skull{font-size:64px;line-height:1;filter:drop-shadow(0 0 14px #ff2d2d88);animation:pulse 1.1s infinite}
+  @keyframes pulse{50%{transform:scale(1.08);filter:drop-shadow(0 0 22px #ff2d2dcc)}}
+  .scare h1{color:var(--red);font-size:clamp(28px,7vw,52px);margin:18px 0 6px;letter-spacing:.06em;
+    text-shadow:0 0 12px #ff2d2d66;animation:flicker 2.4s infinite}
+  @keyframes flicker{0%,97%,100%{opacity:1}98%{opacity:.4}99%{opacity:.85}}
+  .scare .sub{color:#ff8a8a;font-size:clamp(14px,3.6vw,18px);margin-bottom:22px}
+  .term{background:#000;border:1px solid #ff2d2d44;border-radius:8px;text-align:left;
+    padding:16px;font-size:13.5px;line-height:1.7;color:var(--green);
+    min-height:150px;box-shadow:0 0 40px #ff2d2d22 inset;white-space:pre-wrap}
+  .countdown{margin:22px 0 10px;font-size:clamp(26px,8vw,46px);color:var(--red);letter-spacing:.1em}
+  .scare .fake-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+  .fake-btns button{font-family:inherit;cursor:pointer;border:none;border-radius:6px;padding:12px 22px;
+    font-size:15px;font-weight:700}
+  .fb-pay{background:var(--red);color:#fff}
+  .fb-ignore{background:#222;color:#aaa;border:1px solid #444}
+
+  /* ---- Stage 2: the reveal ---- */
+  .reveal{display:none;text-align:center;animation:fade .4s ease}
+  .reveal.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1}}
+  .check{font-size:60px;filter:drop-shadow(0 0 14px #27e06a88)}
+  .reveal h2{color:var(--green);font-size:clamp(24px,6vw,40px);margin:14px 0 8px}
+  .reveal .lede{color:#cfe9d8;font-size:16px;max-width:52ch;margin:0 auto 24px;line-height:1.6}
+  .tips{text-align:left;max-width:560px;margin:0 auto 26px;display:grid;gap:12px}
+  .tip{background:var(--panel);border:1px solid #27e06a33;border-left:3px solid var(--green);
+    border-radius:8px;padding:14px 16px}
+  .tip b{color:var(--green);display:block;margin-bottom:3px;font-size:15px}
+  .tip span{color:#b9bcc9;font-size:14px;line-height:1.5}
+  .reveal .cta{font-family:inherit;cursor:pointer;background:var(--green);color:#042b13;
+    border:none;border-radius:8px;padding:13px 26px;font-size:15px;font-weight:700}
+  .note{color:#6b6e7a;font-size:12.5px;margin-top:22px;line-height:1.6}
+
+  @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+  <div class="label">⚠ Security awareness simulation — this is a safe internal training page, not a real website</div>
+
+  <div class="wrap">
+    <!-- STAGE 1 -->
+    <section class="scare" id="scare" aria-live="polite">
+      <div class="skull">💀</div>
+      <h1>ICICI BANK ACCOUNT HACKED JITENDRA YADAV</h1>
+      <p class="sub">ALL CASH WILL BE ZERO IN 10 MINUTES</p>
+      <pre class="term" id="term"></pre>
+      <div class="countdown" id="countdown">24:00:00</div>
+      <div class="fake-btns">
+ 
+      </div>
+    </section>
+
+    <!-- STAGE 2 -->
+    <section class="reveal" id="reveal" aria-live="polite">
+      <div class="check">✅</div>
+      <h2>Relax — nothing happened.</h2>
+      <p class="lede">This was a security awareness check. No device was hacked, no account was touched, and no money is at risk. A real scam page looks exactly like what you just saw. Here's how to beat it:</p>
+      <div class="tips">
+        <div class="tip"><b>Don't panic</b><span>Urgency and countdowns exist to stop you thinking. A real bank or IT team never threatens to empty your account in hours.</span></div>
+        <div class="tip"><b>Don't click or pay</b><span>Never enter passwords, card details, or OTPs on a page you didn't navigate to yourself. Close the tab.</span></div>
+        <div class="tip"><b>Check the address</b><span>Look at the real URL. Scam sites use odd domains and misspelled brand names to look official.</span></div>
+        <div class="tip"><b>Verify and report</b><span>Contact IT or the company through a number you already trust, not one shown on the suspicious page.</span></div>
+      </div>
+      <button class="cta" id="restart">Run the check again</button>
+      <p class="note">Internal security awareness training. No data is collected and nothing leaves this page.</p>
+    </section>
+  </div>
+
+<script>
+  const $ = s => document.querySelector(s);
+  const termLines = [
+    "> establishing connection to unknown-host ...",
+    "> scanning local files ............ [simulated]",
+    "> reading browser data ........... [simulated]",
+    "> ALERT: this is what a scam wants you to believe",
+    "> none of the above is actually happening"
+  ];
+
+  // Typewriter effect for the fake terminal
+  const term = $('#term');
+  let li = 0;
+  (function typeLine(){
+    if (li >= termLines.length) return;
+    const line = termLines[li] + "\n";
+    let ci = 0;
+    const id = setInterval(() => {
+      term.textContent += line[ci++];
+      if (ci >= line.length){ clearInterval(id); li++; setTimeout(typeLine, 220); }
+    }, 18);
+  })();
+
+  // Fake countdown (purely visual)
+  let total = 24 * 3600;
+  const cd = $('#countdown');
+  const pad = n => String(n).padStart(2, '0');
+  const tick = setInterval(() => {
+    total = total <= 0 ? 24 * 3600 : total - 137; // jumps down fast, loops — clearly fake
+    const h = Math.floor(total / 3600), m = Math.floor((total % 3600) / 60), s = total % 60;
+    cd.textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+  }, 400);
+
+  function showReveal(){
+    clearInterval(tick);
+    $('#scare').classList.add('hide');
+    $('#reveal').classList.add('show');
+    window.scrollTo(0, 0);
+  }
+  // Any choice the trainee makes — pay OR close — leads to the lesson
+  $('#takeBait').addEventListener('click', showReveal);
+  $('#ignore').addEventListener('click', showReveal);
+  // Auto-reveal after 8s so no one sits in the scare too long
+  const auto = setTimeout(showReveal, 800000);
+
+  $('#restart').addEventListener('click', () => location.reload());
+</script>
+</body>
+</html>

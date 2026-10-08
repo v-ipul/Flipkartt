@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>35-in-1 Mantra Chanting Box | Kosha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c1a2e; --muted:#6b6880; --line:#e7e4ee; --bg:#f5f3f8; --card:#fff;
+    --brand:#3b2a8f; --saffron:#f29a1f; --saffron-soft:#fff3e1;
+    --green:#1e8a4c; --green-soft:#e8f7ee; --red:#d6334a; --link:#3b2a8f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Hind",system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);font-size:15px;line-height:1.45}
+  button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  a{color:var(--link);text-decoration:none}
+  :focus-visible{outline:2px solid var(--saffron);outline-offset:2px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+
+  /* Header */
+  header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  .nav{display:flex;align-items:center;gap:24px;height:64px}
+  .logo{display:block;width:140px;height:40px;flex:0 0 140px;border-radius:8px;overflow:hidden}
+  .logo .ph img{object-fit:contain}
+  .search{flex:1;display:flex;align-items:center;gap:10px;border:2px solid var(--brand);border-radius:10px;padding:8px 14px;max-width:640px}
+  .search input{border:none;outline:none;font:inherit;width:100%;background:transparent}
+  .nav-links{display:flex;align-items:center;gap:22px;margin-left:auto}
+  .cart-btn{position:relative;display:flex;align-items:center;gap:6px}
+  .badge{position:absolute;top:-8px;left:12px;background:var(--red);color:#fff;font-size:11px;border-radius:10px;padding:0 5px;min-width:16px;text-align:center}
+
+  .crumbs{font-size:13px;color:var(--muted);padding:12px 0}
+  .crumbs a{color:var(--muted)} .crumbs b{color:var(--ink);font-weight:500}
+
+  /* Product layout */
+  .pdp{display:grid;grid-template-columns:1fr 1fr 420px;gap:20px;align-items:start}
+  .tile{background:var(--card);border-radius:14px;aspect-ratio:3/4;display:grid;place-items:center;overflow:hidden;position:relative;cursor:pointer;border:2px solid transparent;transition:border-color .2s}
+  .tile.active{border-color:var(--saffron)}
+  .tile .icon-btn{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+  .tile .icon-btn.share{top:56px}
+  .wish.on svg{fill:var(--red);stroke:var(--red)}
+  .scene{background:radial-gradient(circle at 30% 30%,#ffd27a,#c45a12 55%,#3b2a8f)}
+
+  .info{background:var(--card);border-radius:14px;padding:18px}
+  .ad-strip{display:flex;gap:10px;align-items:center;background:var(--bg);border-radius:10px;padding:8px;font-size:13px;margin-bottom:14px}
+  .ad-strip .thumb{width:38px;height:38px;border-radius:6px;background:var(--saffron-soft)}
+  .ad-tag{margin-left:auto;font-size:11px;background:#ddd;border-radius:4px;padding:1px 5px;color:#666}
+  h1{font-size:19px;font-weight:500;line-height:1.35}
+  .rating-pill{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:6px;padding:2px 8px;margin:8px 0;font-size:14px}
+  .rating-pill b{color:var(--green)}
+  .deal{display:inline-block;background:var(--brand);color:#fff;font-size:13px;font-weight:600;padding:2px 8px;border-radius:4px}
+  .price{display:flex;align-items:baseline;gap:10px;margin:6px 0;font-size:32px;font-weight:700}
+  .price .off{color:var(--green)} .price s{color:var(--muted);font-weight:400;font-size:26px}
+  .applied{background:var(--green-soft);color:var(--green);border-radius:8px;padding:6px 12px;font-size:14px;font-weight:500}
+
+  .acc{border-top:1px solid var(--line);margin-top:14px;padding-top:14px}
+  .acc-head{display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left}
+  .acc-head h2{font-size:19px;font-weight:600}
+  .acc-head small{display:block;color:var(--muted);font-size:13px;font-weight:400}
+  .chev{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:transform .25s}
+  .acc.closed .chev{transform:rotate(180deg)}
+  .acc-body{overflow:hidden;transition:max-height .3s ease;max-height:2000px}
+  .acc.closed .acc-body{max-height:0}
+
+  .benefits{background:var(--bg);border-radius:10px;padding:12px;margin-top:14px}
+  .benefits h3{font-size:14px;font-weight:600;margin-bottom:8px}
+  .chips{display:flex;gap:8px;overflow-x:auto}
+  .chip{white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:14px}
+
+  .del-row{background:var(--bg);border-radius:10px;padding:10px 12px;margin-top:8px;display:flex;gap:10px;align-items:center;font-size:15px}
+  .del-row .grow{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .del-row small{display:block;color:var(--muted);font-size:13px}
+  .pincode{display:none;gap:8px;margin-top:8px}
+  .pincode.show{display:flex}
+  .pincode input{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit}
+  .pincode button{background:var(--brand);color:#fff;border-radius:8px;padding:0 14px}
+
+  .perks{display:grid;grid-template-columns:repeat(4,1fr);text-align:center;font-size:13px;gap:6px;margin-top:18px}
+  .perks div::before{content:"";display:block;width:28px;height:28px;margin:0 auto 6px;border-radius:50%;background:var(--saffron-soft);border:2px solid var(--saffron)}
+
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;margin-top:12px}
+  .spec{border-bottom:1px solid var(--line);padding:10px 0;font-size:15px}
+  .spec span{display:block;color:var(--muted);font-size:14px}
+
+  .score{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:22px;font-weight:700}
+  .score em{font-style:normal;font-size:14px;font-weight:500;background:var(--green-soft);color:var(--green);border-radius:4px;padding:1px 8px}
+  .reviews{display:flex;gap:10px;overflow-x:auto;margin-top:12px;scroll-snap-type:x mandatory;padding-bottom:4px}
+  .review{flex:0 0 260px;scroll-snap-align:start;background:var(--bg);border-radius:10px;padding:12px;font-size:14px}
+  .review .top{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+  .review .top b{color:var(--ink);font-size:15px}
+  .review p{margin:6px 0}
+  .review .who{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+  .helpful button{margin-left:6px;color:var(--muted)}
+  .helpful button.on{color:var(--brand);font-weight:600}
+
+  .cta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;position:sticky;bottom:0;background:var(--card);padding:10px 0}
+  .cta button{padding:12px;border-radius:10px;font-weight:600;font-size:16px}
+  .btn-cart{border:1px solid var(--line)!important}
+  .btn-buy{background:var(--saffron);color:var(--ink)}
+
+  /* Carousels */
+  .rail{margin:28px 0}
+  .rail-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .rail-head h2{font-size:22px;font-weight:600}
+  .arrow{width:36px;height:36px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+  .track{display:flex;gap:16px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none}
+  .track::-webkit-scrollbar{display:none}
+  .card{flex:0 0 180px;font-size:14px}
+  .card .img{aspect-ratio:3/4;border-radius:10px;position:relative;display:grid;place-items:center;overflow:hidden}
+  .card .r{position:absolute;bottom:8px;left:8px;background:#fff;border-radius:4px;padding:0 6px;font-weight:600;font-size:13px}
+  .card .tag{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:11px;padding:1px 6px;border-radius:3px}
+  .card h4{font-weight:600;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .card .o{color:var(--green);font-weight:600}
+  .card .p s{color:var(--muted)} .card .p b{margin-left:4px}
+  .card small{display:block}
+
+  .promo{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .promo div{border-radius:14px;padding:22px;background:linear-gradient(120deg,#e9e4ff,#fff3e1)}
+  .promo b{display:block;font-size:17px} .promo a{font-weight:600;font-size:14px}
+
+  /* Image placeholders: shows the real image if it loads, otherwise a labelled dashed box */
+  .ph{position:relative;width:100%;height:100%;display:grid;place-items:center}
+  .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .ph .ph-box{display:none;position:absolute;inset:10px;border:2px dashed #c9c5d6;border-radius:10px;
+    background:repeating-linear-gradient(45deg,#f7f6fa 0 12px,#efedf4 12px 24px);
+    flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:13px;text-align:center;padding:8px}
+  .ph .ph-box svg{width:36px;height:36px;stroke:currentColor}
+  .ph.missing img{display:none}
+  .ph.missing .ph-box{display:flex}
+  .ad-strip .ph{width:38px;height:38px;flex:0 0 38px;border-radius:6px;overflow:hidden}
+  .ad-strip .ph .ph-box{inset:0;border-width:1px;border-radius:6px}
+  .ad-strip .ph .ph-box svg{width:18px;height:18px}
+  .ad-strip .ph .ph-box span{display:none}
+  .logo .ph .ph-box{inset:0;flex-direction:row;gap:6px;border-width:1px;border-radius:8px;font-size:12px;padding:4px}
+  .logo .ph .ph-box svg{width:18px;height:18px}
+
+  /* Footer */
+  .site-footer{background:#1e1c24;color:#fff;margin-top:36px;font-size:14px}
+  .foot-cols{display:grid;grid-template-columns:repeat(4,1fr) 1.4fr 1.4fr;gap:28px;padding:40px 0 28px}
+  .foot-col h5{color:#9a98a8;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:14px}
+  .foot-col a{display:block;color:#fff;font-weight:600;padding:3px 0}
+  .foot-col a:hover{color:var(--saffron)}
+  .foot-mail p{color:#e7e4ee;font-weight:400;line-height:1.7;font-size:14px}
+  .foot-mail .tel{color:#6aa0ff;font-weight:400}
+  .socials{display:flex;gap:14px;margin-top:10px}
+  .socials a{width:34px;height:34px;border-radius:50%;border:1px solid #4a4857;display:grid;place-items:center;color:#fff}
+  .socials a:hover{border-color:var(--saffron);color:var(--saffron)}
+  .socials svg{width:18px;height:18px}
+  .foot-bar{border-top:1px solid #35333f;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:20px 0}
+  .foot-links{display:flex;flex-wrap:wrap;gap:26px;align-items:center}
+  .foot-links a{color:#fff;font-weight:600}
+  .foot-links a:hover{color:var(--saffron)}
+  .foot-links .copy{color:#c9c6d4;font-weight:400}
+  .pay-methods{display:flex;flex-wrap:wrap;gap:6px}
+  .pay-methods span{background:#fff;color:#333;font-size:11px;font-weight:700;border-radius:3px;padding:4px 6px;min-width:34px;text-align:center}
+  @media (max-width:980px){.foot-cols{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:600px){.foot-cols{grid-template-columns:1fr}.foot-bar{flex-direction:column;align-items:flex-start}}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:10px;transition:transform .3s;z-index:50}
+  .toast.show{transform:translate(-50%,0)}
+
+  @media (max-width:980px){
+    .pdp{grid-template-columns:1fr 1fr}
+    .info{grid-column:1/-1}
+    .nav-links .hide-sm{display:none}
+  }
+  @media (max-width:600px){
+    .pdp{grid-template-columns:1fr}
+    .tile:not(.active){display:none}
+    .promo{grid-template-columns:1fr}
+    .perks{grid-template-columns:repeat(2,1fr)}
+    .search{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo" aria-label="Home">
+      <div class="ph"><img src="logo1-removebg-preview.png" alt="Store logo"><div class="ph-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg><span>Logo 140 × 40</span></div></div>
+    </a>
+    <label class="search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+      <input type="search" value="mantra chanting device" aria-label="Search products">
+    </label>
+    <div class="nav-links">
+      <button class="hide-sm">👤 Jitendra Yadav ▾</button>
+      <button class="hide-sm">More ▾</button>
+      <button class="cart-btn" aria-label="Cart">🛒<span class="badge" id="cartCount">1</span> Cart</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="crumbs">
+    <a href="#">Home</a> / <a href="#">Festive Decor & Gifting</a> / <a href="#">Spiritual Items</a> /
+    <a href="#">Prayer Kits</a> / <b>35-in-1 Mantra Chanting Box, Plug & Play Prayer Kit</b>
+  </nav>
+
+  <section class="pdp">
+    <!-- Gallery tile 1 -->
+    <div class="tile active" data-tile>
+      <div class="ph"><img src="prod1.png" alt="Chanting box front view"><div class="ph-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg><span>Product image 1<br>600 × 800</span></div></div>
+      <button class="icon-btn wish" id="wishBtn" aria-label="Add to wishlist">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="M12 21s-7-4.4-9.3-9A5.2 5.2 0 0 1 12 6a5.2 5.2 0 0 1 9.3 6C19 16.6 12 21 12 21z"/></svg>
+      </button>
+      <button class="icon-btn share" id="shareBtn" aria-label="Share">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2"><path d="m22 2-11 11M22 2l-7 20-4-9-9-4z"/></svg>
+      </button>
+    </div>
+
+    <!-- Gallery tile 2 -->
+    <div class="tile" data-tile>
+      <div class="ph"><img src="prod2.png" alt="Chanting box plugged into a wall socket"><div class="ph-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg><span>Product image 2<br>600 × 800</span></div></div>
+    </div>
+
+    <!-- Info column -->
+    <div class="info">
+      <a href="#" class="ad-strip"><div class="ph"><img src="prod1.png" alt="Sponsored product"><div class="ph-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg><span></span></div></div>
+        <span>Nada Lightweight Vedic Mantra Chanting Box, 35 M…<br><b style="color:var(--green)">↓67%</b> <s>1,099</s> <b>₹361</b></span>
+        <span class="ad-tag">AD</span></a>
+
+      <h1>Dhvani 35-in-1 Mantra Chanting Box, Plug & Play Prayer Kit</h1>
+      <div class="rating-pill"><b>4.5 ★</b> | 290</div><br>
+      <span class="deal">Top discount of the sale</span>
+      <div class="price"><span class="off">↓72%</span><s>799</s><span>₹226</span></div>
+      <div class="applied">✓ ₹31 off applied for you</div>
+
+      <div class="benefits">
+        <h3>Additional benefits on this purchase</h3>
+        <div class="chips">
+          <span class="chip">🪙 4 reward coins cashback</span>
+          <span class="chip">🎁 Unlock partner offers</span>
+          <span class="chip">🏦 5% off with select bank cards</span>
+        </div>
+      </div>
+
+      <h2 style="font-size:19px;margin-top:18px">Delivery details</h2>
+      <button class="del-row" id="addrBtn" style="width:100%;text-align:left">🏠 <span class="grow"><b>HOME</b> A Building, B wing, Flat no. 20, Kudale Patil…</span> ›</button>
+      <div class="pincode" id="pinBox">
+        <input id="pinInput" inputmode="numeric" maxlength="6" placeholder="Enter 6-digit pincode">
+        <button id="pinCheck">Check</button>
+      </div>
+      <div class="del-row">🚚 <span class="grow" id="delText">Delivery by <b>Wednesday, 14 Oct</b></span></div>
+      <div class="del-row"><span class="grow">Seller: ShaktiEnterprises16<small>4.0★ · 5 months on Kosha</small></span><a href="#" style="font-weight:600;font-size:14px">See other sellers</a></div>
+
+      <div class="perks">
+        <div>Cancellation up to 24h</div><div>7-day return</div><div>Cash on delivery</div><div>Kosha assured</div>
+      </div>
+
+      <div class="acc">
+        <button class="acc-head" aria-expanded="true"><h2>Product highlights</h2><span class="chev">⌃</span></button>
+        <div class="acc-body">
+          <div class="specs">
+            <div class="spec"><span>Sales package</span>1 prayer kit</div>
+            <div class="spec"><span>Pack of</span>1</div>
+            <div class="spec"><span>Brand</span>Dhvani</div>
+            <div class="spec"><span>Model number</span>35-in-1 Mantra Chanting Box, Plug & Play</div>
+            <div class="spec"><span>Regional speciality</span>No regional speciality (available across all states and UTs)</div>
+            <div class="spec"><span>Chanting box</span>Yes</div>
+            <div class="spec"><span>Key features</span>Plug and play, volume controller, LED blinker, toggle switch, clear audio, compact and durable</div>
+            <div class="spec"><span>Deity</span>Ganesh</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc closed">
+        <button class="acc-head" aria-expanded="false"><h2>All details<small>Features, description and more</small></h2><span class="chev">⌃</span></button>
+        <div class="acc-body">
+          <p style="margin-top:10px">Plug the box into any 220V socket and it plays 35 devotional chants on loop. Use the toggle to switch tracks and the knob to set volume. The front LED blinks while a chant is playing.</p>
+        </div>
+      </div>
+
+      <div class="acc">
+        <button class="acc-head" aria-expanded="true"><h2>Ratings and reviews</h2><span class="chev">⌃</span></button>
+        <div class="acc-body">
+          <div class="score">5 ★ <em>Excellent</em></div>
+          <small style="color:var(--muted)">Based on 2 ratings by verified buyers</small>
+          <div class="reviews">
+            <article class="review">
+              <div class="top"><b>5★ Great product</b><span>7 days ago</span></div>
+              <p>Very nice mantra bell. Voice is very clear.</p>
+              <div class="who"><span>Vipin M.<br>✓ Verified buyer</span>
+                <span class="helpful"><button data-count="0">👍 <i>0</i></button><button data-count="0">👎 <i>0</i></button></span></div>
+            </article>
+            <article class="review">
+              <div class="top"><b>5★ Fabulous!</b><span>2 weeks ago</span></div>
+              <p>I have tried a few of these in the past and this one has the best sound for the price.</p>
+              <div class="who"><span>Deepak S.<br>✓ Verified buyer</span>
+                <span class="helpful"><button data-count="0">👍 <i>0</i></button><button data-count="0">👎 <i>0</i></button></span></div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc closed">
+        <button class="acc-head" aria-expanded="false"><h2>Questions and answers<small>No questions and answers available</small></h2><span class="chev">⌃</span></button>
+        <div class="acc-body"><p style="margin-top:10px">Be the first to ask about this product.</p></div>
+      </div>
+
+      <div class="cta">
+       
+        <a href="scam-awareness-demo.html"> <button  class="btn-buy" id="buyNow">Buy now</button></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="rail">
+    <div class="rail-head"><h2>Similar products</h2><button class="arrow" data-scroll="similar" aria-label="Scroll similar products">›</button></div>
+    <div class="track" id="similar"></div>
+  </section>
+
+  <section class="promo">
+    <div><b>Shop today and pay later at no extra cost</b><a href="#">Activate now ›</a></div>
+    <div><b>Get credit up to ₹1 lakh</b>No-cost EMI + ₹500 off<br><a href="#">Activate now ›</a></div>
+  </section>
+
+ 
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div class="foot-col">
+        <h5>About</h5>
+        <a href="#">Contact Us</a><a href="#">About Us</a><a href="#">Careers</a>
+        <a href="#">Kosha Stories</a><a href="#">Press</a><a href="#">Corporate Information</a>
+      </div>
+      <div class="foot-col">
+        <h5>Group Companies</h5>
+        <a href="#">Myntra</a><a href="#">Cleartrip</a><a href="#">Shopsy</a>
+      </div>
+      <div class="foot-col">
+        <h5>Help</h5>
+        <a href="#">Payments</a><a href="#">Shipping</a><a href="#">Cancellation & Returns</a><a href="#">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h5>Consumer Policy</h5>
+        <a href="#">Cancellation & Returns</a><a href="#">Terms Of Use</a><a href="#">Security</a>
+        <a href="#">Privacy</a><a href="#">Sitemap</a><a href="#">Grievance Redressal</a>
+        <a href="#">EPR Compliance</a><a href="#">Food Safety Connect</a><a href="#">App</a>
+      </div>
+      <div class="foot-col foot-mail">
+        <h5>Mail Us:</h5>
+        <p>Kosha Internet Private Limited,<br>Buildings Alyssa, Begonia &amp;<br>Clove Embassy Tech Village,<br>Outer Ring Road, Devarabeesanahalli Village,<br>Bengaluru, 560103,<br>Karnataka, India</p>
+        <h5 style="margin-top:18px">Social:</h5>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M14 8h-1.5A1.5 1.5 0 0 0 11 9.5V11h3l-.5 3H11v5"/></svg></a>
+          <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="m8 8 8 8M16 8l-8 8"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="m10 9 5 3-5 3z" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div class="foot-col foot-mail">
+        <h5>Registered Office Address:</h5>
+        <p>Kosha Internet Private Limited,<br>Buildings Alyssa, Begonia &amp;<br>Clove Embassy Tech Village,<br>Outer Ring Road, Devarabeesanahalli Village,<br>Bengaluru, 560103,<br>Karnataka, India<br>CIN : U51109KA2012PTC000000<br>Telephone: <a class="tel" href="tel:04445614700">044-45614700</a> / <a class="tel" href="tel:04467415800">044-67415800</a></p>
+      </div>
+    </div>
+
+    <div class="foot-bar">
+      <div class="foot-links">
+        <a href="#">🏬 Become a Seller</a>
+        <a href="#">✨ Advertise</a>
+        <a href="#">🎁 Gift Cards</a>
+        <a href="#">❓ Help Center</a>
+        <span class="copy">© 2007–2026 Kosha.com</span>
+      </div>
+      <div class="pay-methods">
+        <span>VISA</span><span>MC</span><span>Maestro</span><span>AmEx</span>
+        <span>Diners</span><span>Discover</span><span>RuPay</span>
+        <span>Net Banking</span><span>COD</span><span>EMI</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  const $ = s => document.querySelector(s);
+  const $$ = s => document.querySelectorAll(s);
+
+  function toast(msg){
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // Gallery: click a tile to make it active
+  $$('[data-tile]').forEach(tile => tile.addEventListener('click', e => {
+    if (e.target.closest('.icon-btn')) return;
+    $$('[data-tile]').forEach(t => t.classList.remove('active'));
+    tile.classList.add('active');
+  }));
+
+  // Wishlist + share
+  $('#wishBtn').addEventListener('click', e => {
+    const b = e.currentTarget; b.classList.toggle('on');
+    toast(b.classList.contains('on') ? 'Added to wishlist' : 'Removed from wishlist');
+  });
+  $('#shareBtn').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(location.href); toast('Link copied'); }
+    catch { toast('Copy the link from the address bar'); }
+  });
+
+  // Accordions
+  $$('.acc-head').forEach(h => h.addEventListener('click', () => {
+    const acc = h.parentElement; acc.classList.toggle('closed');
+    h.setAttribute('aria-expanded', !acc.classList.contains('closed'));
+  }));
+
+  // Address / pincode check
+  $('#addrBtn').addEventListener('click', () => $('#pinBox').classList.toggle('show'));
+  $('#pinCheck').addEventListener('click', () => {
+    const pin = $('#pinInput').value.trim();
+    if (!/^\d{6}$/.test(pin)) { toast('Enter a valid 6-digit pincode'); return; }
+    const d = new Date(); d.setDate(d.getDate() + 3 + (parseInt(pin[0]) % 4));
+    $('#delText').innerHTML = `Delivery by <b>${d.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short'})}</b> to ${pin}`;
+    $('#pinBox').classList.remove('show');
+  });
+
+  // Review helpful votes (one vote per review)
+  $$('.helpful').forEach(group => group.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+    group.querySelectorAll('button').forEach(b => {
+      if (b.classList.contains('on')) { b.classList.remove('on'); b.querySelector('i').textContent = b.dataset.count; }
+    });
+    btn.classList.add('on'); btn.querySelector('i').textContent = +btn.dataset.count + 1;
+  })));
+
+  // Cart
+  let cart = 1;
+  $('#addCart').addEventListener('click', () => { $('#cartCount').textContent = ++cart; toast('Added to cart'); });
+  $('#buyNow').addEventListener('click', () => toast('Going to checkout…'));
+
+  // Carousel data (placeholder art = coloured gradient tiles)
+  const similar = [
+      ['Preeti Hindu Mantra Chanting Box',4.0,599,198,'Top discount of the sale','15 Oct','','images/similar-1.png'],
+   ['Nada Hindu Religious Chanting Box',4.2,999,351,'Top discount of the sale','14 Oct','','images/similar-2.png'],
+   ['Fasivo Plastic Body 35-in-1 Box',null,999,220,'','14 Oct','Trending','images/similar-3.png'],
+   ['Nada Mantra Chanting Device',3.6,999,192,'','14 Oct','','images/similar-4.png'],
+   ['Auracam Camphor Tablets',4.1,250,176,'','13 Oct','','images/similar-5.png'],
+  ];
+  const recent = [
+    ['Odinik Gayatri Mantra Chanter',4.4,899,404],
+    ['Veshti Co. Self Design Kurta',3.8,1299,571],
+    ['Bear Lane Men Straight Jeans',4.3,2199,505],
+    ['Bear Lane Men Straight Jeans',4.3,2199,505],
+    ['Bear Lane Men Straight Jeans',4.3,2199,505],
+    ['Bear Lane Relaxed Jeans',4.5,2199,527],
+  ];
+
+  const PH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 17-5-5-9 8"/></svg>';
+
+  function card([name, r, mrp, price, note, eta, tag], i, list){
+    const img = `images/${list}-${i + 1}.png`;
+    const off = Math.round((1 - price / mrp) * 100);
+    return `<a href="#" class="card" style="color:inherit">
+      <div class="img">
+        <div class="ph"><img src="${img}" alt="${name}"><div class="ph-box">${PH_ICON}<span>Image<br>360 × 480</span></div></div>
+        ${tag ? `<span class="tag">${tag}</span>` : ''}${r ? `<span class="r">${r} ★</span>` : ''}
+      </div>
+      <h4>${name}</h4><span class="o">${off}% OFF</span>
+      <div class="p"><s>₹${mrp}</s><b>₹${price}</b></div>
+      ${note ? `<small style="color:var(--link);font-weight:600">${note}</small>` : ''}
+      ${eta ? `<small>Get it by <b>${eta}</b></small>` : ''}
+    </a>`;
+  }
+  $('#similar').innerHTML = similar.map((d, i) => card(d, i, 'similar')).join('');
+  $('#recent').innerHTML = recent.map((d, i) => card(d, i, 'recent')).join('');
+
+  // Placeholders: show the dashed box for any image that is missing or fails to load
+  function watchImages(root = document){
+    root.querySelectorAll('.ph img').forEach(img => {
+      const mark = () => img.closest('.ph').classList.add('missing');
+      if (!img.getAttribute('src')) return mark();
+      if (img.complete && img.naturalWidth === 0) return mark();
+      img.addEventListener('error', mark, { once: true });
+      img.addEventListener('load', () => img.closest('.ph').classList.remove('missing'), { once: true });
+    });
+  }
+  watchImages();
+
+  $$('[data-scroll]').forEach(b => b.addEventListener('click', () => {
+    const tr = document.getElementById(b.dataset.scroll);
+    const end = tr.scrollLeft + tr.clientWidth >= tr.scrollWidth - 5;
+    tr.scrollBy({ left: end ? -tr.scrollWidth : tr.clientWidth * 0.8 });
+  }));
+</script>
+</body>
+</html>
